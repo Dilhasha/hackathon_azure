@@ -3,7 +3,7 @@ import ballerina/email;
 import ballerina/io;
 
 @awslambda:Function
-function sendmail(awslambda:Context ctx, string receiverEmailAddress) returns json|error {
+function sendmail(awslambda:Context ctx, json input) returns json|error {
     string host = "smtp.gmail.com";
     string username = "xxx@gmail.com";
     string password = "xxxx!";
@@ -19,7 +19,7 @@ function sendmail(awslambda:Context ctx, string receiverEmailAddress) returns js
     } else {
         email:SmtpClient smtpClient = smtpClientOrError;
         email:Message emailMessage = {
-            to: receiverEmailAddress,
+            to: <string> check input.email,
             subject: subject,
             body: body
         };
